@@ -28,8 +28,8 @@ const {
         expect(await basicdutchauction.blocknumber()).to.equal(1);
       });
   
-      it("Check if the initialPrice is 1600000000000000000 wei", async function () {
-        var bigNum = BigInt("1600000000000000000");
+      it("Check if the initialPrice is 1550000000000000000 wei", async function () {
+        var bigNum = BigInt("1550000000000000000");
         const { basicdutchauction, owner } = await loadFixture(BasicDutchAuctiondeploy);
         expect(await basicdutchauction.initialPrice()).to.equal(bigNum);
       });
