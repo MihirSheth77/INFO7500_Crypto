@@ -156,5 +156,25 @@ describe("NFT", function () {
         await expect(auctionContract.bid(options)).to.be.revertedWith("Bids are not being accepted, the auction has ended.");
       });
       
+      it("Check if the bids are getting rejected if the bid price is less than the auction minimum price", async function () 
+      {
+        const { auctionContract, firstAcc } = await loadFixture(deployDutchAuctionTestFixture);
+
+        await auctionContract.connect(firstAcc).escrowNFT();
+        const options = {value: 50};
+
+        await expect(auctionContract.connect(firstAcc).bid(options)).to.be.revertedWith("Your bid price is less than the required auction price.");
+      });
+
+      it("should revert if auctionStart is false", async function () {
+        const { contract } = await loadFixture(fixture);
+        await expect(contract.bid()).to.be.revertedWith("Auction is not started yet!");
+    });    
+
+    it("should revert if sender is not sellerAccountAddr", async function () {
+      const { contract } = await loadFixture(fixture);
+      await expect(contract.endAuction()).to.be.revertedWith("Invalid call, Only owner of this NFT can trigger this call.");
+    });
+    
   });
 });
